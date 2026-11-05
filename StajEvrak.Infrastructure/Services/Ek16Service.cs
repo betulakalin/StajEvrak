@@ -78,7 +78,7 @@ public class Ek16Service
             report.Messages.Add(error);
         else
             report.Warnings.Add($"'{doc.Extension}' türündeki belgeler şu an otomatik okunamıyor. " +
-                                "Otomatik karşılaştırma için belgeyi Word (.docx) olarak yükleyin.");
+                               "Otomatik karşılaştırma için belgeyi Word (.docx) veya PDF olarak yükleyin.");
 
         // 2) Veri seti ile form
         var student = await _db.Students.FindAsync(doc.StudentId);

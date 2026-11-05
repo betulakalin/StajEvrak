@@ -31,6 +31,7 @@ namespace StajEvrak.web
                 sp.GetRequiredService<IFileValidator>(),
                 Path.Combine(builder.Environment.ContentRootPath, "App_Data", "uploads")));
             builder.Services.AddScoped<IEk16Reader, DocxEk16Reader>();
+            builder.Services.AddScoped<IEk16Reader, PdfEk16Reader>();
             builder.Services.AddScoped<Ek16Service>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o =>

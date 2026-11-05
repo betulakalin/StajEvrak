@@ -1,11 +1,11 @@
 ﻿@model StajEvrak.web.Models.DocumentDetailsViewModel
 @{
     ViewData["Title"] = "Belge Detayı";
+    var badge = StajEvrak.web.Models.StatusDisplay.Get(Model.Document.Status);
 }
-
 <h2>@Model.Document.OriginalFileName</h2>
 <p>
-    Durum: <strong>@Model.Document.Status</strong> |
+    Durum: <span class="badge @badge.Css">@badge.Text</span> |
     Yüklenme: @Model.Document.UploadedAt.ToString("dd.MM.yyyy HH:mm")
 </p>
 
