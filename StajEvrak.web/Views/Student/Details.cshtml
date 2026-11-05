@@ -1,0 +1,81 @@
+﻿@model StajEvrak.web.Models.DocumentDetailsViewModel
+@{
+    ViewData["Title"] = "Belge Detayı";
+}
+
+<h2>@Model.Document.OriginalFileName</h2>
+<p>
+    Durum: <strong>@Model.Document.Status</strong> |
+    Yüklenme: @Model.Document.UploadedAt.ToString("dd.MM.yyyy HH:mm")
+</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.Report != null)
+{
+    <partial name="_Ek16Report" model="Model.Report" />
+}
+
+<form asp-action="Details" asp-route-id="@Model.Document.Id" method="post">
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <fieldset @(Model.CanEdit ? "" : "disabled")>
+        <h5 class="mt-2">Öğrenci Bilgileri</h5>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="Form.FullName" class="form-label"></label><input asp-for="Form.FullName" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Form.NationalId" class="form-label"></label><input asp-for="Form.NationalId" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.Nationality" class="form-label"></label><input asp-for="Form.Nationality" class="form-control" placeholder="T.C." /></div>
+            <div class="col-md-4"><label asp-for="Form.StudentNo" class="form-label"></label><input asp-for="Form.StudentNo" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.BirthDate" class="form-label"></label><input asp-for="Form.BirthDate" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Form.Department" class="form-label"></label><input asp-for="Form.Department" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Form.AcademicTerm" class="form-label"></label><input asp-for="Form.AcademicTerm" class="form-control" placeholder="2026-2027 Bahar" /></div>
+            <div class="col-md-6"><label asp-for="Form.Email" class="form-label"></label><input asp-for="Form.Email" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Form.Phone" class="form-label"></label><input asp-for="Form.Phone" class="form-control" placeholder="+90 5xx xxx xx xx" /></div>
+            <div class="col-12"><label asp-for="Form.Address" class="form-label"></label><input asp-for="Form.Address" class="form-control" placeholder="Mahalle, Cadde/Sokak, Bina No, Daire No, İlçe/İl" /></div>
+            <div class="col-md-4"><label asp-for="Form.PreviousInternshipDays" class="form-label"></label><input asp-for="Form.PreviousInternshipDays" class="form-control" /></div>
+            <div class="col-md-8">
+                <label asp-for="Form.HealthStatus" class="form-label"></label>
+                <select asp-for="Form.HealthStatus" class="form-select">
+                    <option value="">Seçin</option>
+                    <option value="1">1 - Genel Sağlık Sigortası kapsamındayım</option>
+                    <option value="2">2 - Anne-Baba üzerinden sağlık yardımı almaktayım</option>
+                    <option value="3">3 - SSK'ya tabi çalıştığımdan kendi sağlık yardımım var</option>
+                    <option value="4">4 - Bağ-Kur'a tabi çalıştığımdan kendi sağlık yardımım var</option>
+                    <option value="5">5 - Emekli Sandığı'na tabi çalıştığımdan kendi sağlık yardımım var</option>
+                    <option value="6">6 - Herhangi bir sosyal güvencem yok</option>
+                </select>
+            </div>
+        </div>
+
+        <h5 class="mt-4">Staj Bilgileri</h5>
+        <div class="row g-3">
+            <div class="col-md-4"><label asp-for="Form.InternshipStart" class="form-label"></label><input asp-for="Form.InternshipStart" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.InternshipEnd" class="form-label"></label><input asp-for="Form.InternshipEnd" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.WorkDaysCount" class="form-label"></label><input asp-for="Form.WorkDaysCount" class="form-control" /></div>
+        </div>
+
+        <h5 class="mt-4">İşyeri Bilgileri</h5>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="Form.CompanyName" class="form-label"></label><input asp-for="Form.CompanyName" class="form-control" /></div>
+            <div class="col-md-6"><label asp-for="Form.CompanyEmail" class="form-label"></label><input asp-for="Form.CompanyEmail" class="form-control" /></div>
+            <div class="col-12"><label asp-for="Form.CompanyAddress" class="form-label"></label><input asp-for="Form.CompanyAddress" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.CompanyPhone" class="form-label"></label><input asp-for="Form.CompanyPhone" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.CompanyFax" class="form-label"></label><input asp-for="Form.CompanyFax" class="form-control" /></div>
+            <div class="col-md-4"><label asp-for="Form.EngineerCount" class="form-label"></label><input asp-for="Form.EngineerCount" class="form-control" /></div>
+        </div>
+
+        @if (Model.CanEdit)
+        {
+            <button type="submit" class="btn btn-primary mt-4">Kaydet ve Kontrol Et</button>
+        }
+    </fieldset>
+</form>
+
+<a asp-action="Documents" class="btn btn-outline-secondary mt-3">Belgelerime Dön</a>

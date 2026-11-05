@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Öğrenci Paneli";
+}
+
+<h2 class="mb-4">Hoş geldin, @User.Identity?.Name</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Evrak Yükle</h5>
+                <p>Ek-16 belgeni yükle.</p>
+                <a asp-action="Upload" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Belgelerim</h5>
+                <p>Yüklediğin belgeler ve raporları.</p>
+                <a asp-action="Documents" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+</div>

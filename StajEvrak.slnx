@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="StajEvrak.Core/StajEvrak.Core.csproj" />
+  <Project Path="StajEvrak.Infrastructure/StajEvrak.Infrastructure.csproj" />
+  <Project Path="StajEvrak.web/StajEvrak.web.csproj" />
+</Solution>

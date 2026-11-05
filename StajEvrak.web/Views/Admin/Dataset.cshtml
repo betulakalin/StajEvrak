@@ -1,0 +1,88 @@
+﻿@model StajEvrak.web.Models.DatasetPageViewModel
+@{
+    ViewData["Title"] = "Veri Seti";
+}
+
+<h2 class="mb-4">Test Veri Seti</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Dataset" method="post" enctype="multipart/form-data" class="row g-2">
+            <div class="col-md-9">
+                <input type="file" name="file" accept=".xlsx,.csv" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Yükle</button>
+            </div>
+        </form>
+        <small class="text-muted d-block mt-2">
+            İlk satır başlık olmalı. Sütun sırası: Ad Soyad, TC/Kimlik No, Uyruk, Öğrenci No,
+            Doğum Tarihi, Adres, Bölüm, Teslim Yılı, Önceki Staj Günü, E-posta, Telefon, Sağlık Statüsü
+        </small>
+    </div>
+</div>
+
+@if (Model.Result != null)
+{
+    if (Model.Result.Added + Model.Result.Updated > 0)
+    {
+        <div class="alert alert-success">
+            @Model.Result.Added kayıt eklendi, @Model.Result.Updated kayıt güncellendi.
+        </div>
+    }
+    if (Model.Result.Errors.Any())
+    {
+        <div class="alert alert-warning">
+            <strong>Atlanan satırlar:</strong>
+            <ul class="mb-0">
+                @foreach (var e in Model.Result.Errors)
+                {
+                    <li>@e</li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+<h5>Kayıtlı öğrenciler (@Model.Records.Count)</h5>
+<div class="table-responsive">
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th>Öğrenci No</th>
+                <th>Ad Soyad</th>
+                <th>Kimlik No</th>
+                <th>Uyruk</th>
+                <th>Doğum</th>
+                <th>Bölüm</th>
+                <th>Teslim Yılı</th>
+                <th>Önceki Staj</th>
+                <th>E-posta</th>
+                <th>Telefon</th>
+                <th>Sağlık</th>
+                <th>Adres</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Records)
+            {
+                <tr>
+                    <td>@r.StudentNo</td>
+                    <td>@r.FullName</td>
+                    <td>@r.NationalId</td>
+                    <td>@r.Nationality</td>
+                    <td>@r.BirthDate.ToString("dd.MM.yyyy")</td>
+                    <td>@r.Department</td>
+                    <td>@r.SubmissionYear</td>
+                    <td>@r.PreviousInternshipDays</td>
+                    <td>@r.Email</td>
+                    <td>@r.Phone</td>
+                    <td>@r.HealthInsuranceStatus</td>
+                    <td>@r.Address</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<a asp-action="Index" class="btn btn-outline-secondary">Geri</a>

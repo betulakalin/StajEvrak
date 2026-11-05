@@ -1,0 +1,80 @@
+﻿@using StajEvrak.Core.Entities
+@using StajEvrak.web.Models
+@model AdminDocumentDetailsViewModel
+@{
+    ViewData["Title"] = "Belge Detayı";
+    var badge = StatusDisplay.Get(Model.Document.Status);
+    var m = Model.Manual;
+}
+
+<h2>@Model.Document.OriginalFileName</h2>
+<p>
+    Öğrenci: <strong>@Model.Document.Student.Username</strong> (@Model.Document.Student.StudentNo) |
+    Yüklenme: @Model.Document.UploadedAt.ToString("dd.MM.yyyy HH:mm") |
+    Durum: <span class="badge @badge.Css">@badge.Text</span>
+</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@* ---------- İşlemler ---------- *@
+<div class="mb-4">
+    <a asp-action="DownloadDocument" asp-route-id="@Model.Document.Id" class="btn btn-outline-primary">İndir</a>
+
+    @if (Model.Document.Status == DocumentStatus.Onaylandi)
+    {
+        <form asp-action="CompleteDocument" asp-route-id="@Model.Document.Id" method="post" class="d-inline">
+            <button type="submit" class="btn btn-success">Tamamlandı Olarak İşaretle</button>
+        </form>
+    }
+
+    <form asp-action="DeleteDocument" asp-route-id="@Model.Document.Id" method="post" class="d-inline"
+          onsubmit="return confirm('Bu belge kalıcı olarak silinecek. Emin misiniz?');">
+        <button type="submit" class="btn btn-outline-danger">Sil</button>
+    </form>
+</div>
+
+@if (Model.Report != null)
+{
+    <partial name="_Ek16Report" model="Model.Report" />
+}
+@* ---------- Öğrencinin girdiği bilgiler ---------- *@
+@if (m == null)
+{
+    <div class="alert alert-info">Öğrenci bu belge için henüz bilgi girmedi.</div>
+}
+else
+{
+    var rows = new (string Label, string? Value)[]
+    {
+        ("Ad Soyad", m.FullName), ("Kimlik No", m.NationalId), ("Uyruk", m.Nationality),
+        ("Öğrenci No", m.StudentNo), ("Doğum Tarihi", m.BirthDate?.ToString("dd.MM.yyyy")),
+        ("Bölüm", m.Department), ("Öğretim Yılı / Dönem", m.AcademicTerm),
+        ("Önceki Staj Günü", m.PreviousInternshipDays?.ToString()), ("Sağlık Statüsü", m.HealthStatus),
+        ("E-posta", m.Email), ("Telefon", m.Phone), ("Adres", m.Address),
+        ("Staj Başlangıç", m.InternshipStart?.ToString("dd.MM.yyyy")),
+        ("Staj Bitiş", m.InternshipEnd?.ToString("dd.MM.yyyy")),
+        ("Staj Gün Sayısı", m.WorkDaysCount?.ToString()),
+        ("Firma Adı", m.CompanyName), ("Firma Adresi", m.CompanyAddress),
+        ("Firma Telefonu", m.CompanyPhone), ("Firma Faks", m.CompanyFax),
+        ("Firma E-posta", m.CompanyEmail), ("Mühendis Sayısı", m.EngineerCount?.ToString())
+    };
+
+    <h5>Öğrencinin Girdiği Bilgiler</h5>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            @foreach (var r in rows)
+            {
+                <tr><th style="width: 30%">@r.Label</th><td>@r.Value</td></tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Documents" class="btn btn-outline-secondary">Belgelere Dön</a>

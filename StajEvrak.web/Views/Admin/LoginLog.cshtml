@@ -1,0 +1,34 @@
+﻿@model List<StajEvrak.Core.Entities.LoginLog>
+@{
+    ViewData["Title"] = "Giriş Logları";
+}
+
+<h2 class="mb-4">Giriş Logları (son 100)</h2>
+
+<table class="table table-sm table-striped">
+    <thead>
+        <tr><th>Tarih</th><th>Kullanıcı</th><th>Sonuç</th><th>IP</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var l in Model)
+        {
+            <tr>
+                <td>@l.Timestamp.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@l.Username</td>
+                <td>
+                    @if (l.IsSuccess)
+                    {
+                        <span class="badge bg-success">Başarılı</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Başarısız</span>
+                    }
+                </td>
+                <td>@l.IpAddress</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-outline-secondary">Geri</a>

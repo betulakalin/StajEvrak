@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<h2 class="mb-4">Admin Paneli</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Öğrenci Hesapları</h5>
+                <p>Hesapları görüntüle, kilitleri aç.</p>
+                <a asp-action="Users" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Giriş Logları</h5>
+                <p>Başarılı ve başarısız giriş denemeleri.</p>
+                <a asp-action="LoginLogs" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Veri Seti</h5>
+                <p>Test veri setini yükle.</p>
+                <a asp-action="Dataset" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Tüm Belgeler</h5>
+                <p>Öğrencilerin yüklediği bütün belgeler.</p>
+                <a asp-action="Documents" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>Tamamlanan Belgeler</h5>
+                <p>Tamamlandı statüsündeki belgeler.</p>
+                <a asp-action="Documents" asp-route-status="Tamamlandi" class="btn btn-primary">Aç</a>
+            </div>
+        </div>
+    </div>
+</div>

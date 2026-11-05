@@ -1,0 +1,65 @@
+﻿@using StajEvrak.Core.Entities
+@using StajEvrak.web.Models
+@model List<Document>
+@{
+    ViewData["Title"] = "Belgeler";
+    var current = ViewBag.CurrentStatus as DocumentStatus?;
+}
+
+<h2 class="mb-4">Belgeler</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@* Statü sekmeleri *@
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link @(current == null ? "active" : "")" asp-action="Documents">Tümü</a>
+    </li>
+    @foreach (DocumentStatus s in Enum.GetValues(typeof(DocumentStatus)))
+    {
+        <li class="nav-item">
+            <a class="nav-link @(current == s ? "active" : "")" asp-action="Documents" asp-route-status="@s">
+                @StatusDisplay.Get(s).Text
+            </a>
+        </li>
+    }
+</ul>
+
+@if (!Model.Any())
+{
+    <p>Bu sekmede belge yok.</p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr><th>Öğrenci</th><th>Öğrenci No</th><th>Dosya</th><th>Yüklenme</th><th>Durum</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model)
+            {
+                var badge = StatusDisplay.Get(d.Status);
+                <tr>
+                    <td>@d.Student.Username</td>
+                    <td>@d.Student.StudentNo</td>
+                    <td>@d.OriginalFileName</td>
+                    <td>@d.UploadedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td><span class="badge @badge.Css">@badge.Text</span></td>
+                    <td class="text-end">
+                        <a asp-action="DocumentDetails" asp-route-id="@d.Id" class="btn btn-sm btn-primary">Detay</a>
+                        <a asp-action="DownloadDocument" asp-route-id="@d.Id" class="btn btn-sm btn-outline-primary">İndir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-outline-secondary">Geri</a>

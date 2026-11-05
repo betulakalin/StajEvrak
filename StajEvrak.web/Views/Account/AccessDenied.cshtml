@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Yetkisiz Erişim";
+}
+
+<div class="text-center mt-5">
+    <h1 class="text-danger">403</h1>
+    <h4>Bu sayfaya erişim yetkiniz yok.</h4>
+    <p>3 saniye içinde giriş sayfasına yönlendiriliyorsunuz...</p>
+    <a asp-action="Login">Hemen git</a>
+</div>
+
+<script>
+    setTimeout(function () {
+        window.location.href = '@Url.Action("Login", "Account")';
+    }, 3000);
+</script>

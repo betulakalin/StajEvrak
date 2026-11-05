@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Evrak Yükle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Ek-16 Yükle</h2>
+
+        <form asp-action="Upload" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <input type="file" name="file" id="fileInput" class="form-control"
+                       accept=".doc,.docx,.pdf,.jpg,.jpeg,.png" />
+                <small class="text-muted">Kabul edilen formatlar: Word (.doc, .docx), PDF, JPEG, PNG. En fazla 10 MB.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Evrak Yükle</button>
+        </form>
+
+        <a asp-action="Index" class="btn btn-outline-secondary mt-3">Geri</a>
+    </div>
+</div>
+
+<script>
+    // Kullanıcıya anında uyarı (asıl kontrol sunucuda yapılıyor)
+    document.getElementById('fileInput').addEventListener('change', function () {
+        const allowed = ['doc', 'docx', 'pdf', 'jpg', 'jpeg', 'png'];
+        const file = this.files[0];
+        if (!file) return;
+
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!allowed.includes(ext)) {
+            alert('Bu dosya formatı kabul edilmiyor. Lütfen Word, PDF, JPEG veya PNG yükleyin.');
+            this.value = '';
+        }
+    });
+</script>

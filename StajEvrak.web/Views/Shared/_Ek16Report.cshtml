@@ -1,0 +1,63 @@
+﻿@model StajEvrak.Infrastructure.Services.Ek16Report
+
+<div class="card mb-4">
+    <div class="card-header">
+        <strong>Kontrol Raporu</strong>
+        @if (Model.HasErrors)
+        {
+            <span class="badge bg-danger ms-2">Uyuşmazlık var</span>
+        }
+        else
+        {
+            <span class="badge bg-success ms-2">Sorun bulunamadı</span>
+        }
+    </div>
+    <div class="card-body">
+        @foreach (var m in Model.Messages)
+        {
+            <div class="alert alert-danger">@m</div>
+        }
+        @foreach (var w in Model.Warnings)
+        {
+            <div class="alert alert-info">@w</div>
+        }
+
+        @if (Model.DocumentComparison.Any())
+        {
+            <h6>Belge ile form karşılaştırması</h6>
+            <table class="table table-sm mb-4">
+                <thead><tr><th>Alan</th><th>Belgede</th><th>Formda</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var i in Model.DocumentComparison)
+                    {
+                        <tr class="@(i.IsMatch ? "" : "table-danger")">
+                            <td>@i.Field</td>
+                            <td>@(string.IsNullOrWhiteSpace(i.Expected) ? "(boş)" : i.Expected)</td>
+                            <td>@(string.IsNullOrWhiteSpace(i.Actual) ? "(boş)" : i.Actual)</td>
+                            <td>@(i.IsMatch ? "✓" : "✗")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (Model.DatasetComparison.Any())
+        {
+            <h6>Veri seti ile form karşılaştırması</h6>
+            <table class="table table-sm">
+                <thead><tr><th>Alan</th><th>Veri Setinde</th><th>Formda</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var i in Model.DatasetComparison)
+                    {
+                        <tr class="@(i.IsMatch ? "" : "table-danger")">
+                            <td>@i.Field</td>
+                            <td>@(string.IsNullOrWhiteSpace(i.Expected) ? "(boş)" : i.Expected)</td>
+                            <td>@(string.IsNullOrWhiteSpace(i.Actual) ? "(boş)" : i.Actual)</td>
+                            <td>@(i.IsMatch ? "✓" : "✗")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
