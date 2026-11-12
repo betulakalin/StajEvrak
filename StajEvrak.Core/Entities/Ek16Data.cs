@@ -1,7 +1,5 @@
 ﻿namespace StajEvrak.Core.Entities;
 
-public enum DataSource { Manual, Extracted }
-
 public class Ek16Data
 {
     public int Id { get; set; }
