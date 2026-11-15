@@ -28,19 +28,11 @@ else
         <tbody>
             @foreach (var d in Model)
             {
-                var badge = d.Status switch
-                {
-                    DocumentStatus.Yuklendi => ("bg-secondary", "Yüklendi"),
-                    DocumentStatus.Inceleniyor => ("bg-info", "İnceleniyor"),
-                    DocumentStatus.HataliEksik => ("bg-danger", "Hatalı / Eksik"),
-                    DocumentStatus.Onaylandi => ("bg-primary", "Onaylandı"),
-                    DocumentStatus.Tamamlandi => ("bg-success", "Tamamlandı"),
-                    _ => ("bg-light", d.Status.ToString())
-                };
+                var badge = StajEvrak.web.Models.StatusDisplay.Get(d.Status);
                 <tr>
                     <td>@d.OriginalFileName</td>
                     <td>@d.UploadedAt.ToString("dd.MM.yyyy HH:mm")</td>
-                    <td><span class="badge @badge.Item1">@badge.Item2</span></td>
+                   <td><span class="badge @badge.Css">@badge.Text</span></td>
                     <td class="text-end">
                         <a asp-action="Details" asp-route-id="@d.Id" class="btn btn-sm btn-primary">Bilgiler / Rapor</a>
                         <a asp-action="Download" asp-route-id="@d.Id" class="btn btn-sm btn-outline-primary">İndir</a>
