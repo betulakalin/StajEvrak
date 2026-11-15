@@ -53,7 +53,7 @@ public class PdfEk16Reader : Ek16ReaderBase
     {
         var segments = new List<Box>();
 
-        foreach (var path in page.ExperimentalAccess.Paths)
+        foreach (var path in page.Paths)
             foreach (var subpath in path)
             {
                 PdfRectangle? r = subpath.GetBoundingRectangle();
